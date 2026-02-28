@@ -6,7 +6,7 @@ describe("Tests all stages of an order", function () {
     });
     it("test hello", function () {
         const aResults = handleInput("hello");
-        expect(aResults[0]).toBe("Welcome to Rich's Acton Rapid Test.");
+        expect(aResults[0]).toBe("Welcome to Isaac's Kitchen.");
     });
     it("test yes", function () {
         handleInput("hello");
