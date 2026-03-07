@@ -1,13 +1,13 @@
 let currentState = welcoming;
 
 let order = {
-  item: "",
-  size: "",
-  topping: "",
-  drink: ""
+  item:"",
+  size:"",
+  topping:"",
+  drink:""
 };
 
-export function handleInput(sInput) {
+export function handleInput(sInput){
   return currentState(sInput);
 }
 
@@ -15,36 +15,34 @@ export function clearInput(){
   currentState = welcoming;
 }
 
-function welcoming() {
+function welcoming(){
 
   let aReturn = [];
+
   currentState = choosingItem;
 
   aReturn.push("Welcome to Isaac's Kitchen.");
-  aReturn.push("What would you like to order today?");
+  aReturn.push("What would you like to order?");
   aReturn.push("Pizza or Burger?");
 
   return aReturn;
+
 }
 
-function choosingItem(sInput) {
+function choosingItem(sInput){
 
-  let aReturn = [];
+  let aReturn=[];
   let input = sInput.toLowerCase();
 
   if(input.includes("pizza") || input.includes("burger")){
 
-    if(input.includes("pizza")){
-      order.item = "pizza";
-    } else {
-      order.item = "burger";
-    }
+    order.item = input.includes("pizza") ? "pizza" : "burger";
 
     currentState = choosingSize;
 
     aReturn.push("Great choice!");
-    aReturn.push("What size would you like?");
-    aReturn.push("Pizza: small medium large | Burger: single double");
+    aReturn.push("What size?");
+    aReturn.push("small medium large");
 
   } else {
 
@@ -53,93 +51,63 @@ function choosingItem(sInput) {
   }
 
   return aReturn;
+
 }
 
 function choosingSize(sInput){
 
-  let aReturn = [];
+  let aReturn=[];
   let input = sInput.toLowerCase();
 
-  if(["small","medium","large","single","double"].includes(input)){
+  if(["small","medium","large"].includes(input)){
 
     order.size = input;
+
     currentState = choosingTopping;
 
-    aReturn.push(`${input} ${order.item} selected.`);
     aReturn.push("Choose a topping:");
-    aReturn.push("pepperoni, cheese, mushroom, bacon, lettuce");
+    aReturn.push("pepperoni cheese mushroom bacon");
 
   } else {
 
-    aReturn.push("Please choose a valid size.");
+    aReturn.push("Please choose small medium or large.");
 
   }
 
   return aReturn;
+
 }
 
 function choosingTopping(sInput){
 
-  let aReturn = [];
+  let aReturn=[];
   let input = sInput.toLowerCase();
 
-  if(["pepperoni","cheese","mushroom","bacon","lettuce"].includes(input)){
+  order.topping = input;
 
-    order.topping = input;
-    currentState = upsellDrink;
+  currentState = upsellDrink;
 
-    aReturn.push(`${input} added.`);
-    aReturn.push("Would you like a drink?");
-    aReturn.push("coke, sprite, water");
-
-  } else {
-
-    aReturn.push("Please choose a topping.");
-
-  }
+  aReturn.push("Would you like a drink?");
+  aReturn.push("coke sprite water");
 
   return aReturn;
+
 }
 
 function upsellDrink(sInput){
 
-  let aReturn = [];
+  let aReturn=[];
   let input = sInput.toLowerCase();
 
   if(["coke","sprite","water"].includes(input)){
     order.drink = input;
-    aReturn.push(`${input} added to your order.`);
-  } else {
-    aReturn.push("No drink added.");
   }
 
-  currentState = anotherItem;
+  currentState = welcoming;
 
-  aReturn.push("Would you like another item? (yes or no)");
-
-  return aReturn;
-}
-
-function anotherItem(sInput){
-
-  let aReturn = [];
-  let input = sInput.toLowerCase();
-
-  if(input.startsWith("y")){
-
-    currentState = choosingItem;
-
-    aReturn.push("What else would you like?");
-    aReturn.push("Pizza or Burger?");
-
-  } else {
-
-    currentState = welcoming;
-
-    aReturn.push(`Your order: ${order.size} ${order.item} with ${order.topping}${order.drink ? " and a " + order.drink : ""}.`);
-    aReturn.push("Thanks for ordering from Isaac's Kitchen!");
-
-  }
+  aReturn.push(`Your order: ${order.size} ${order.item} with ${order.topping}${order.drink ? " and " + order.drink : ""}.`);
+  aReturn.push("Thanks for ordering from Isaac's Kitchen!");
 
   return aReturn;
+
 }

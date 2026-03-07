@@ -1,38 +1,33 @@
+import "./chat.js";
+
 class Fab extends HTMLElement {
 
   connectedCallback(){
 
     this.innerHTML = `
-<style>
+      <style>
+      .fab{
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background:#5ccad7;
+        color:white;
+        border:none;
+        padding:15px;
+        border-radius:50%;
+        cursor:pointer;
+        font-size:16px;
+      }
+      </style>
 
-.fab{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#5ccad7;
-  color:white;
-  padding:15px;
-  border-radius:50%;
-  cursor:pointer;
-}
+      <button class="fab">Chat</button>
+      <div class="chat-container"></div>
+    `;
 
-</style>
+    this.querySelector("button").onclick = () => {
+      this.querySelector(".chat-container").innerHTML = "<x-chat></x-chat>";
+    };
 
-<div class="fab">Chat</div>
-<x-chat style="display:none;"></x-chat>
-`;
-
-    const button = this.querySelector(".fab");
-    const chat = this.querySelector("x-chat");
-
-    button.addEventListener("click",()=>{
-
-      chat.style.display =
-        chat.style.display === "none"
-        ? "block"
-        : "none";
-
-    });
   }
 
 }

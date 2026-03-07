@@ -1,15 +1,17 @@
-import { handleInput, clearInput } from "./Order.js"
+import { handleInput } from "./Order.js";
 
 class Chat extends HTMLElement {
 
-  sendMessage(evt) {
+  sendMessage(evt){
     evt.preventDefault();
+
     var msg = this.input.value;
-    this.input.value = '';
+    this.input.value = "";
+
     this.writeLine(msg);
   }
 
-  writeLine(text) {
+  writeLine(text){
 
     this.messages.insertAdjacentHTML(
       "beforeend",
@@ -18,101 +20,100 @@ class Chat extends HTMLElement {
 
     const responses = handleInput(text);
 
-    for (let message of responses) {
+    for(let message of responses){
+
       this.messages.insertAdjacentHTML(
         "beforeend",
         `<li class="message-item item-primary">Bot says: ${message}</li>`
       );
+
     }
 
     this.messages.scrollTop = this.messages.scrollHeight;
+
   }
 
-  connectedCallback() {
-
-    const suffix = (Math.random()*100).toFixed().toString();
+  connectedCallback(){
 
     this.innerHTML = `
-<style>
 
-.chat${suffix} ul { list-style: none; }
+    <style>
 
-.chat${suffix}{
-  max-width:400px;
-  min-height:400px;
-  background:#fff;
-  padding:15px;
-  border-radius:1rem;
-}
+    ul{list-style:none;}
 
-.chat${suffix} .messages{
-  display:flex;
-  flex-direction:column;
-  height:500px;
-}
+    .chat{
+      width:400px;
+      height:500px;
+      background:white;
+      border-radius:10px;
+      padding:10px;
+      box-shadow:0 0 10px rgba(0,0,0,0.2);
+      position:fixed;
+      bottom:80px;
+      right:20px;
+    }
 
-.chat${suffix} .message-list{
-  overflow-y:auto;
-  max-height:500px;
-}
+    .message-list{
+      height:380px;
+      overflow-y:auto;
+    }
 
-.chat${suffix} .message-item{
-  padding:15px;
-  border-radius:0.75rem;
-  margin:15px 0;
-}
+    .message-item{
+      padding:10px;
+      margin:10px 0;
+      border-radius:10px;
+    }
 
-.chat${suffix} .item-primary{
-  background:#f6f7f8;
-  margin-right:2em;
-}
+    .item-primary{
+      background:#f6f7f8;
+    }
 
-.chat${suffix} .item-secondary{
-  background:#5ccad7;
-  color:white;
-  margin-left:2em;
-}
+    .item-secondary{
+      background:#5ccad7;
+      color:white;
+      text-align:right;
+    }
 
-.chat${suffix} .message-input{
-  display:flex;
-  padding-top:10px;
-}
+    form{
+      display:flex;
+      margin-top:10px;
+    }
 
-.chat${suffix} input{
-  width:100%;
-  padding:10px;
-}
+    input{
+      flex:1;
+      padding:8px;
+    }
 
-</style>
+    </style>
 
-<div class="chat${suffix}">
-  <div class="messages">
-    <ul class="message-list"></ul>
+    <div class="chat">
 
-    <form class="message-input">
-      <input type="text" placeholder="Type message..." />
-      <button type="submit">Send</button>
-    </form>
-  </div>
-</div>
-`;
+      <ul class="message-list"></ul>
+
+      <form>
+        <input type="text" placeholder="Type message"/>
+        <button type="submit">Send</button>
+      </form>
+
+    </div>
+    `;
 
     this.input = this.querySelector("input");
     this.messages = this.querySelector(".message-list");
 
     this.querySelector("form")
-      .addEventListener('submit', this.sendMessage.bind(this));
-
-    clearInput();
+      .addEventListener("submit", this.sendMessage.bind(this));
 
     const welcome = handleInput("");
-    for (let msg of welcome) {
+    for(let msg of welcome){
       this.messages.insertAdjacentHTML(
         "beforeend",
         `<li class="message-item item-primary">Bot says: ${msg}</li>`
       );
     }
+
   }
+
 }
 
 customElements.define("x-chat", Chat);

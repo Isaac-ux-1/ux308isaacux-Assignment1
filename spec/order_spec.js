@@ -1,61 +1,78 @@
-import { handleInput, clearInput } from "../Order.js"
+import { handleInput, clearInput } from "./Order.js";
 
 describe("Isaac's Kitchen Ordering", () => {
 
-  beforeEach(()=>{
+  beforeEach(() => {
     clearInput();
   });
 
-  it("shows welcome message", () => {
+  it("shows the welcome message", () => {
 
-    const result = handleInput("");
+    const response = handleInput("");
 
-    expect(result[0]).toContain("Welcome to Isaac's Kitchen");
-
+    expect(response[0]).toBe("Welcome to Isaac's Kitchen.");
   });
 
-  it("accepts pizza order", () => {
+
+  it("asks user to choose pizza or burger", () => {
+
+    const response = handleInput("");
+
+    expect(response[2]).toBe("Pizza or Burger?");
+  });
+
+
+  it("accepts pizza choice", () => {
+
+    handleInput(""); // welcome
+    const response = handleInput("pizza");
+
+    expect(response[0]).toBe("Great choice!");
+  });
+
+
+  it("asks for size after choosing item", () => {
 
     handleInput("");
-    const result = handleInput("pizza");
+    const response = handleInput("burger");
 
-    expect(result[0]).toContain("Great choice");
-
+    expect(response[1]).toBe("What size?");
   });
 
-  it("accepts size", () => {
+
+  it("accepts size selection", () => {
 
     handleInput("");
     handleInput("pizza");
-    const result = handleInput("large");
 
-    expect(result[0]).toContain("pizza");
+    const response = handleInput("large");
 
+    expect(response[0]).toBe("Choose a topping:");
   });
 
-  it("accepts topping", () => {
+
+  it("asks about drink upsell", () => {
+
+    handleInput("");
+    handleInput("pizza");
+    handleInput("medium");
+
+    const response = handleInput("pepperoni");
+
+    expect(response[0]).toBe("Would you like a drink?");
+  });
+
+
+  it("completes the order", () => {
 
     handleInput("");
     handleInput("pizza");
     handleInput("large");
+    handleInput("cheese");
 
-    const result = handleInput("pepperoni");
+    const response = handleInput("coke");
 
-    expect(result[0]).toContain("added");
-
-  });
-
-  it("accepts drink upsell", () => {
-
-    handleInput("");
-    handleInput("pizza");
-    handleInput("large");
-    handleInput("pepperoni");
-
-    const result = handleInput("coke");
-
-    expect(result[0]).toContain("added");
-
+    expect(response[1]).toBe("Thanks for ordering from Isaac's Kitchen!");
   });
 
 });
