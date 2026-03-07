@@ -34,11 +34,15 @@ function choosingItem(sInput) {
 
   if(input.includes("pizza") || input.includes("burger")){
 
-    order.item = input.includes("pizza") ? "pizza" : "burger";
+    if(input.includes("pizza")){
+      order.item = "pizza";
+    } else {
+      order.item = "burger";
+    }
 
     currentState = choosingSize;
 
-    aReturn.push(`Great choice!`);
+    aReturn.push("Great choice!");
     aReturn.push("What size would you like?");
     aReturn.push("Pizza: small medium large | Burger: single double");
 
@@ -119,10 +123,12 @@ function upsellDrink(sInput){
 function anotherItem(sInput){
 
   let aReturn = [];
+  let input = sInput.toLowerCase();
 
-  if(sInput.toLowerCase().startsWith("y")){
+  if(input.startsWith("y")){
 
     currentState = choosingItem;
+
     aReturn.push("What else would you like?");
     aReturn.push("Pizza or Burger?");
 
